@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Travel Explorer | Popular Travel Content in the U.S.</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #7f8c8d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: var(--accent-color);
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary-color);
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .content-block {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .content-block h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .content-block p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .content-block img {
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .highlight-box {
+            background-color: var(--light-color);
+            border-left: 4px solid var(--secondary-color);
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .highlight-box h4 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .topic-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .topic-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .topic-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .topic-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .topic-card:hover .topic-img img {
+            transform: scale(1.05);
+        }
+        
+        .topic-content {
+            padding: 20px;
+        }
+        
+        .topic-content h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .topic-content p {
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        
+        /* Strategy List */
+        .strategy-list {
+            margin-top: 30px;
+        }
+        
+        .strategy-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .strategy-icon {
+            font-size: 24px;
+            color: var(--secondary-color);
+            margin-right: 15px;
+            min-width: 30px;
+        }
+        
+        .strategy-content h4 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        /* Newsletter */
+        .newsletter {
+            background: var(--primary-color);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .newsletter h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+            font-size: 1rem;
+        }
+        
+        .newsletter-form button {
+            padding: 15px 25px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .newsletter-form button:hover {
+            background: #c0392b;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--light-color);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #bdc3c7;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: background 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--secondary-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 15px;
+            }
+            
+            nav {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: white;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                transform: translateY(-150%);
+                transition: transform 0.3s;
+            }
+            
+            nav.active {
+                transform: translateY(0);
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 0 0 15px 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                height: 400px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-form input {
+                border-radius: 5px;
+                margin-bottom: 10px;
+            }
+            
+            .newsletter-form button {
+                border-radius: 5px;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero {
+                height: 350px;
+            }
+            
+            .content-block {
+                padding: 20px;
+            }
+            
+            .topic-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">US <span>Travel</span> Explorer</div>
+            <button class="mobile-menu-btn">☰</button>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Destinations</a></li>
+                    <li><a href="#">Travel Guides</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Discover America's Most Beautiful Destinations</h1>
+            <p>Explore travel guides, hidden gems, and expert tips for your next adventure across the United States</p>
+            <a href="#" class="btn">Explore Destinations</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content container">
+        <section>
+            <div class="section-title">
+                <h2>The Popularity of Travel Content in the U.S.</h2>
+                <p>Why travel-related content has become one of the most popular blog and video niches in America</p>
+            </div>
+            
+            <div class="content-block">
+                <p>The United States has long been a hub for travel enthusiasts and content creators alike. With 50 diverse states, thousands of cities, and a variety of landscapes—from mountains and beaches to deserts and forests—the country offers endless opportunities for exploration. This makes travel-related content one of the most popular blog and video niches in the U.S.</p>
+                
+                <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="US travel destinations collage">
+                
+                <p>According to multiple SEO and social media analytics platforms, search interest in U.S. domestic travel has surged since 2020. More people are looking for travel guides, weekend getaway ideas, road trip itineraries, national park reviews, and budget-friendly vacation plans.</p>
+                
+                <div class="highlight-box">
+                    <h4>Did You Know?</h4>
+                    <p>Over 70% of American travelers say they turn to online blogs and videos when planning their next trip.</p>
+                </div>
+                
+                <p>What drives this content boom? For one, Americans are more digitally connected than ever. With easy access to smartphones, YouTube, Instagram, TikTok, and travel blogs, travel inspiration is always just a click away.</p>
+                
+                <p>Whether it's a family vacation to Disneyland, a solo backpacking adventure across the Pacific Northwest, or a romantic escape to the beaches of Florida, travel content gives readers and viewers a first-hand look at the experience—helping them plan smarter and get excited.</p>
+            </div>
+        </section>
+        
+        <section>
+            <div class="section-title">
+                <h2>Most Searched Travel Topics in the U.S.</h2>
+                <p>Discover what American travelers are searching for when planning their next adventure</p>
+            </div>
+            
+            <div class="content-block">
+                <p>Travel-related searches in the United States cover a wide range of topics. Here are some of the most popular ones:</p>
+                
+                <div class="topic-list">
+                    <div class="topic-card">
+                        <div class="topic-img">
+                            <img src="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="National Parks">
+                        </div>
+                        <div class="topic-content">
+                            <h4>National Parks</h4>
+                            <p>National Parks like Yellowstone, Yosemite, and the Grand Canyon are among the top searched destinations. People look for hiking guides, best times to visit, hidden spots, and lodging tips.</p>
+                            <a href="#">Read More →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="topic-img">
+                            <img src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Road Trips">
+                        </div>
+                        <div class="topic-content">
+                            <h4>Road Trips</h4>
+                            <p>The U.S. is known for its vast and well-maintained highways, making road trips incredibly popular. Common queries include best U.S. road trip routes and coast-to-coast itineraries.</p>
+                            <a href="#">Read More →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="topic-img">
+                            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Weekend Getaways">
+                        </div>
+                        <div class="topic-content">
+                            <h4>Weekend Getaways</h4>
+                            <p>Short vacations are a big trend. Cities like Chicago, Austin, San Diego, and Nashville often trend due to their cultural vibe, music scenes, and food culture.</p>
+                            <a href="#">Read More →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="topic-img">
+                            <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Budget Travel">
+                        </div>
+                        <div class="topic-content">
+                            <h4>Budget Travel</h4>
+                            <p>With inflation and rising travel costs, budget travel is a trending topic. Blogs offering budget tips, cheap destinations, or how to travel the U.S. with under $500 are widely shared.</p>
+                            <a href="#">Read More →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="topic-img">
+                            <img src="https://images.unsplash.com/photo-1517825738774-7de9363ef735?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Holiday Travel">
+                        </div>
+                        <div class="topic-content">
+                            <h4>Travel During Holidays</h4>
+                            <p>Posts about where to travel during Thanksgiving, Christmas, or Spring Break get a lot of views. Many families and students plan their trips during these times.</p>
+                            <a href="#">Read More →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="topic-img">
+                            <img src="https://images.unsplash.com/photo-1503174971373-b1f69850bded?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Hidden Gems">
+                        </div>
+                        <div class="topic-content">
+                            <h4>Hidden Gems</h4>
+                            <p>Rather than crowded tourist spots, many travelers are now interested in lesser-known destinations—called "hidden gems"—like Sedona (AZ), Asheville (NC), or Door County (WI).</p>
+                            <a href="#">Read More →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <div class="section-title">
+                <h2>How Creators Build Popular U.S. Travel Content</h2>
+                <p>Key strategies used by successful travel bloggers and influencers in the United States</p>
+            </div>
+            
+            <div class="content-block">
+                <p>Bloggers and influencers in the U.S. create content that not only informs but also inspires. Here are the key strategies they use:</p>
+                
+                <div class="strategy-list">
+                    <div class="strategy-item">
+                        <div class="strategy-icon">✅</div>
+                        <div class="strategy-content">
+                            <h4>Visual Storytelling</h4>
+                            <p>Photos and videos are critical. From drone shots of beaches to time-lapses of cityscapes, travel content becomes more engaging with strong visuals.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="strategy-item">
+                        <div class="strategy-icon">✅</div>
+                        <div class="strategy-content">
+                            <h4>SEO Optimization</h4>
+                            <p>Creators use tools like Google Trends, Ubersuggest, and Semrush to find trending travel keywords. For example: "Best places to visit in California 2025", "Affordable travel in the U.S.", "Romantic destinations near me".</p>
+                        </div>
+                    </div>
+                    
+                    <div class="strategy-item">
+                        <div class="strategy-icon">✅</div>
+                        <div class="strategy-content">
+                            <h4>Personal Experience</h4>
+                            <p>Authenticity matters. Readers prefer first-hand experiences, honest reviews, and practical advice over generic lists.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="strategy-item">
+                        <div class="strategy-icon">✅</div>
+                        <div class="strategy-content">
+                            <h4>Social Media Integration</h4>
+                            <p>U.S.-based travel bloggers often repurpose blog content for Instagram reels, YouTube shorts, and TikTok videos. This multiplies their reach and helps content go viral.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="strategy-item">
+                        <div class="strategy-icon">✅</div>
+                        <div class="strategy-content">
+                            <h4>Local Collaborations</h4>
+                            <p>Partnering with local hotels, restaurants, or tour companies adds value to both the content creator and their audience. Sponsored content is also a major revenue stream in the U.S. travel niche.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>Conclusion</h4>
+                    <p>Travel-related content in the United States continues to grow because of the country's rich diversity, strong digital presence, and the public's growing appetite for exploration. Whether it's through blog posts, Instagram stories, or YouTube vlogs, American travelers rely heavily on digital content to plan, experience, and share their adventures. For creators, this niche offers massive potential—as long as the content remains helpful, honest, and visually compelling.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <h3>Get Travel Tips & Deals</h3>
+            <p>Subscribe to our newsletter for the latest travel guides, hidden gems, and exclusive deals straight to your inbox.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>US Travel Explorer</h4>
+                    <p>Your ultimate guide to exploring the diverse landscapes and cities of the United States. We provide honest travel advice, detailed guides, and insider tips.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f">f</i></a>
+                        <a href="#"><i class="fab fa-twitter">t</i></a>
+                        <a href="#"><i class="fab fa-instagram">i</i></a>
+                        <a href="#"><i class="fab fa-pinterest">p</i></a>
+                        <a href="#"><i class="fab fa-youtube">y</i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Destinations</a></li>
+                        <li><a href="#">Travel Guides</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Popular Categories</h4>
+                    <ul>
+                        <li><a href="#">National Parks</a></li>
+                        <li><a href="#">Road Trips</a></li>
+                        <li><a href="#">Weekend Getaways</a></li>
+                        <li><a href="#">Budget Travel</a></li>
+                        <li><a href="#">Hidden Gems</a></li>
+                        <li><a href="#">Travel Gear</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li>123 Travel Street, Suite 100</li>
+                        <li>Denver, CO 80202</li>
+                        <li>Email: info@ustravelexplorer.com</li>
+                        <li>Phone: (555) 123-4567</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 US Travel Explorer. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    nav.classList.remove('active');
+                }
+            });
+        });
+        
+        // Sticky header on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            header.classList.toggle('sticky', window.scrollY > 0);
+        });
+        
+        // Newsletter form submission
+        const newsletterForm = document.querySelector('.newsletter-form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const emailInput = newsletterForm.querySelector('input[type="email"]');
+                if (emailInput.value) {
+                    alert('Thank you for subscribing to our newsletter!');
+                    emailInput.value = '';
+                }
+            });
+        }
+        
+        // Image lazy loading
+        document.addEventListener('DOMContentLoaded', function() {
+            const lazyImages = [].slice.call(document.querySelectorAll('img.lazy'));
+            
+            if ('IntersectionObserver' in window) {
+                let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            let lazyImage = entry.target;
+                            lazyImage.src = lazyImage.dataset.src;
+                            lazyImage.classList.remove('lazy');
+                            lazyImageObserver.unobserve(lazyImage);
+                        }
+                    });
+                });
+                
+                lazyImages.forEach(function(lazyImage) {
+                    lazyImageObserver.observe(lazyImage);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
